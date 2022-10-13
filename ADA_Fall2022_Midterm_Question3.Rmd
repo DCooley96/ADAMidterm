@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Load Packages
 ```{r}
-pacman::p_load(tidyverse, ggplot2)
+pacman::p_load(tidyverse, knitr,ggplot2)
 ```
 
 
@@ -49,3 +49,22 @@ The median age for first class was 38.5 years old. The median age for second cla
 ggsave(filename = "Age By Passenger Class.png", plot = AgePClassPlot,
       bg="white") 
 ```
+
+# Determine the percentage of males and females by class 
+```{r}
+#Check class of sex -- currently character 
+class(Titanic$Sex)
+table(Titanic$Sex)
+#create factor version of sex 
+Titanic$Sex_f<-factor(Titanic$Sex,levels = c("female", "male"), labels = c("Female", "Male"))
+# Check to see if it worked 
+table(Titanic$Sex_f)
+#Determine percentage of males and females by class 
+## Create a crosstabulation of sex by class and save table 
+MFbyClass<-table(Titanic$Pclass_f,Titanic$Sex_f)
+## View Table 
+MFbyClass
+#Calculate the percentage of males and females by each class convert it to percent values and round to one decimal point 
+round(100*prop.table(MFbyClass, margin = 1),1)
+```
+
