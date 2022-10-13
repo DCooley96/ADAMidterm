@@ -1,0 +1,51 @@
+---
+title: "ADA F22 Midterm Question 3"
+author: "Daiszha Cooley"
+date: "2022-10-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load Packages
+```{r}
+pacman::p_load(tidyverse, ggplot2)
+```
+
+
+# Import Data Set 
+```{r}
+Titanic<-read_csv("https://raw.githubusercontent.com/kijohnson/Data/main/titanic.csv")
+```
+
+# Determine the Median Age by passenger class
+```{r}
+table(Titanic$Pclass)
+table(Titanic$Pclass_f)
+# create factor version of passenger class 
+Titanic$Pclass_f<-factor(Titanic$Pclass, levels = c(1,2,3), labels = c("1st class", "2nd class","3rd class"))
+#determine median age by passenger class 
+Titanic%>%
+  group_by(Titanic$Pclass_f)%>%
+  summarise(Median = median(Age),n = n())
+```
+
+# Plot Median, Spread of Data and Outliers (box plot) for age according to passenger class 
+```{r}
+AgePClassPlot<-ggplot(data = Titanic, aes(x = Age, y = Titanic$Pclass_f)) +
+  geom_boxplot() +
+  labs(x = "Age (yrs)", y = "Passenger Class",  title = "Age by Passenger Class")+ 
+  theme_bw()
+AgePClassPlot
+```
+
+# Report the medians by passenger class 
+The median age for first class was 38.5 years old. The median age for second class was 29.0 years old. The median age for 3rd class was 24.0 years old. 
+
+# Export plot as PNG
+```{r}
+ggsave(filename = "Age By Passenger Class.png", plot = AgePClassPlot,
+      bg="white") 
+```
