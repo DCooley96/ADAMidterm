@@ -23,9 +23,10 @@ Titanic<-read_csv("https://raw.githubusercontent.com/kijohnson/Data/main/titanic
 # Determine the Median Age by passenger class
 ```{r}
 table(Titanic$Pclass)
-table(Titanic$Pclass_f)
 # create factor version of passenger class 
 Titanic$Pclass_f<-factor(Titanic$Pclass, levels = c(1,2,3), labels = c("1st class", "2nd class","3rd class"))
+#confirm factor version worked 
+table(Titanic$Pclass_f)
 #determine median age by passenger class 
 Titanic%>%
   group_by(Titanic$Pclass_f)%>%
@@ -38,6 +39,7 @@ AgePClassPlot<-ggplot(data = Titanic, aes(x = Age, y = Titanic$Pclass_f)) +
   geom_boxplot() +
   labs(x = "Age (yrs)", y = "Passenger Class",  title = "Age by Passenger Class")+ 
   theme_bw()
+#view plot 
 AgePClassPlot
 ```
 
